@@ -1,0 +1,19 @@
+# service: front-end  # Menentukan nama service untuk aplikasi ini
+
+# runtime: nodejs18  # Menggunakan runtime Node.js versi 16, sesuaikan jika perlu
+
+# instance_class: F2  # Menentukan kelas instance (F2 untuk skala kecil)
+
+# env_variables:
+#   NODE_ENV: 'production'  # Variabel lingkungan untuk produksi
+
+# handlers:
+#   - url: /static
+#     static_dir: build/static  # Menyediakan file statis yang dihasilkan oleh build React
+#   - url: /
+#     static_files: build/index.html  # File utama HTML aplikasi React
+#     upload: build/index.html
+
+# automatic_scaling:
+#   min_instances: 1  # Minimal 1 instance
+#   max_instances: 2  # Maksimal 2 instance untuk mengatur skalabilitas otomatis
