@@ -27,9 +27,9 @@ const Dashboard = () => {
   const handleSave = async (article) => {
     console.log("Saving article:", article);  // Log data yang dikirim
     try {
-      // Generate a random ID for new articles on the client-side
-      if (!article.id) {
-        article.id = uuidv4();  // Generate unique ID
+      // Generate a random ID for new articles on the client-side (jika perlu)
+      if (!article.article_id) {
+        article.article_id = uuidv4();  // Generate unique article_id
       }
 
       const formData = new FormData();
@@ -39,7 +39,6 @@ const Dashboard = () => {
         formData.append("image", article.image);
       }
 
-      // Pastikan URL dan endpoint sudah benar
       const response = await axios.post(article_URL, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
@@ -53,7 +52,7 @@ const Dashboard = () => {
   // Delete an article
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`${API_URL}/${id}`);
+      await axios.delete(`${article_URL}/${id}`);  // Pastikan URL delete sesuai dengan struktur endpoint
       await fetchArticles(); 
     } catch (error) {
       console.error("Error deleting article:", error);

@@ -28,7 +28,10 @@ const ArticleForm = ({ onSave, initialData }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSave(formData);  // Kirim form data ke parent (Dashboard)
+    onSave({
+      ...formData,
+      article_id: initialData ? initialData.article_id : undefined, // Pastikan `article_id` disertakan saat edit
+    });  // Kirim form data ke parent (Dashboard)
     setFormData({ title: "", content: "", image: null }); // Reset form setelah submit
   };
 
