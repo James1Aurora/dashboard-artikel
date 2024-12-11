@@ -1,5 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
+import { v4 as uuidv4 } from "uuid";  // Import uuid
 import ArticleForm from "./ArticleForm";
 import ArticleTable from "./ArticleTable";
 
@@ -26,12 +27,18 @@ const Dashboard = () => {
   const handleSave = async (article) => {
     console.log("Saving article:", article);  // Log data yang dikirim
     try {
+      // Generate a random ID for new articles on the client-side
+      if (!article.id) {
+        article.id = uuidv4();  // Generate unique ID
+      }
+
       const formData = new FormData();
       formData.append("name", article.title);
       formData.append("description", article.content);
       if (article.image) {
         formData.append("image", article.image);
       }
+
       // Pastikan URL dan endpoint sudah benar
       const response = await axios.post(article_URL, formData, {
         headers: { "Content-Type": "multipart/form-data" },

@@ -11,9 +11,10 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-scripts": "5.0.1",
+    "uuid": "^11.0.3",
     "web-vitals": "^2.1.4"
   },
-  "proxy": "https://acnescan-final.et.r.appspot.com", 
+  "proxy": "https://acnescan-final.et.r.appspot.com",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
