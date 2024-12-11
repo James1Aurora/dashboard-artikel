@@ -4,17 +4,15 @@ const ArticleForm = ({ onSave, initialData }) => {
   const [formData, setFormData] = useState({
     title: "",
     content: "",
-    author: "",
-    image: null, // nambahin file gambar
+    image: null, // Untuk file gambar
   });
 
   useEffect(() => {
     if (initialData) {
       setFormData({
-        title: initialData.title,
-        content: initialData.content,
-        author: initialData.author,
-        image: null, // reset file input buat di edit
+        title: initialData.name,  // Gunakan `name` sebagai `title`
+        content: initialData.description,  // Gunakan `description` sebagai `content`
+        image: null, // Reset file input saat mengedit artikel
       });
     }
   }, [initialData]);
@@ -25,13 +23,13 @@ const ArticleForm = ({ onSave, initialData }) => {
   };
 
   const handleFileChange = (e) => {
-    setFormData({ ...formData, image: e.target.files[0] }); // nyimpen file gambar
+    setFormData({ ...formData, image: e.target.files[0] }); // Menyimpan file gambar
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSave(formData);
-    setFormData({ title: "", content: "", author: "", image: null });
+    onSave(formData);  // Kirim form data ke parent (Dashboard)
+    setFormData({ title: "", content: "", image: null }); // Reset form setelah submit
   };
 
   return (
@@ -57,17 +55,6 @@ const ArticleForm = ({ onSave, initialData }) => {
           onChange={handleChange}
           required
         ></textarea>
-      </div>
-      <div className="mb-3">
-        <label className="form-label">Author</label>
-        <input
-          type="text"
-          className="form-control"
-          name="author"
-          value={formData.author}
-          onChange={handleChange}
-          required
-        />
       </div>
       <div className="mb-3">
         <label className="form-label">Image</label>

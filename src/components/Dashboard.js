@@ -4,72 +4,63 @@ import ArticleForm from "./ArticleForm";
 import ArticleTable from "./ArticleTable";
 
 const Dashboard = () => {
-
   const API_URL = process.env.REACT_APP_API_URL;
-  const article_URL = `${API_URL}/articles`;
+  const article_URL = `${API_URL}/articles`; 
   const [articles, setArticles] = useState([]);
   const [editingArticle, setEditingArticle] = useState(null);
 
-  // Menggunakan useCallback untuk mendeklarasikan fetchArticles agar tetap stabil
+  // Fetch articles using useCallback 
   const fetchArticles = useCallback(async () => {
     try {
       const response = await axios.get(article_URL);
       console.log(response.data);
       if (response.data && response.data.data) {
-        setArticles(response.data.data);
+        setArticles(response.data.data); 
       }
     } catch (error) {
       console.error("Error fetching articles:", error);
     }
-  }, [article_URL]); // Menggunakan article_URL sebagai dependensi jika diperlukan
+  }, [article_URL]); 
 
-  // tambah/update artikel
+  // Add or update an article
   const handleSave = async (article) => {
+    console.log("Saving article:", article);  // Log data yang dikirim
     try {
       const formData = new FormData();
-      formData.append("name", article.name);
-      formData.append("description", article.description);
-      formData.append("author", article.author);
+      formData.append("name", article.title);
+      formData.append("description", article.content);
       if (article.image) {
-        formData.append("image", article.image); // Tambahkan file gambar
+        formData.append("image", article.image);
       }
-      if (editingArticle) {
-        await axios.put(`${API_URL}/${editingArticle.article_id}`, formData, {
-          headers: { "Content-Type": "multipart/form-data" },
-        });
-        setEditingArticle(null);
-      } else {
-        await axios.post(API_URL, formData, {
-          headers: { "Content-Type": "multipart/form-data" },
-        });
-      }
+      // Pastikan URL dan endpoint sudah benar
+      const response = await axios.post(article_URL, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      console.log("Response:", response);  // Log response dari API
       await fetchArticles();
     } catch (error) {
       console.error("Error saving article:", error);
     }
   };
 
-  // hapus artikel
+  // Delete an article
   const handleDelete = async (id) => {
     try {
       await axios.delete(`${API_URL}/${id}`);
-      await fetchArticles();
+      await fetchArticles(); 
     } catch (error) {
       console.error("Error deleting article:", error);
     }
   };
 
-  // edit artikel
+  // Edit an article
   const handleEdit = (article) => {
     setEditingArticle(article);
   };
 
   useEffect(() => {
-    fetch('https://acnescan-final.et.r.appspot.com/articles')
-      .then(response => response.json())
-      .then(data => console.log(data))
-      .catch(error => console.log('Error:', error));
-  }, []);
+    fetchArticles(); 
+  }, [fetchArticles]); 
 
   return (
     <div className="container mt-5">
